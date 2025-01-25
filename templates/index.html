@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detectify - Upload</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/static/images/logo.png" alt="Detectify Logo" />
+            <span>Detectify</span>
+        </div>
+        <div class="nav-links">
+            <a href="">Home</a>
+            <a href="history">Histórico</a>
+        </div>
+    </nav>
+
+    <!-- Upload Section -->
+    <section class="main-container">
+        <h1>Upload de Arquivo</h1>
+        <form id="uploadForm">
+            <input type="file" name="file" id="fileInput" accept=".jpg,.jpeg,.png,.mp4,.avi,.mkv" required>
+            <button type="submit">Enviar</button>
+        </form>
+
+        <!-- Progress Bar -->
+        <div id="progressContainer" style="display: none;">
+            <p>Enviando...</p>
+            <div id="progressBar">
+                <div id="progress" style="width: 0%;"></div>
+            </div>
+            <p id="progressText">0%</p>
+        </div>
+
+        <!-- Upload Result -->
+        <div id="uploadResult" style="display: none;"></div>
+    </section>
+
+    <script>
+// Função para monitorar o progresso
+function monitorProgress() {
+    const interval = setInterval(() => {
+        fetch('/progress')
+            .then(response => response.json())
+            .then(data => {
+                const progress = data.current;
+                const progressBar = document.getElementById('progress');
+                const progressText = document.getElementById('progressText');
+
+                // Atualiza a barra e o texto
+                progressBar.style.width = progress + '%';
+                progressText.textContent = progress + '%';
+
+                // Se o progresso chegar a 100%, para o monitoramento
+                if (progress >= 100) {
+                    clearInterval(interval);
+                }
+            })
+            .catch(err => {
+                console.error('Erro ao obter progresso:', err);
+                clearInterval(interval);
+            });
+    }, 500); // Atualiza a cada 500ms
+}
+
+// Função para iniciar o upload e monitorar o progresso
+uploadForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+    if (!file) {
+        alert('Por favor, selecione um arquivo.');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/upload', true);
+
+    // Exibe a barra de progresso
+    const progressContainer = document.getElementById('progressContainer');
+    progressContainer.style.display = 'block';
+
+    // Inicia o monitoramento do progresso
+    monitorProgress();
+
+    // Conclui o upload
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            alert('Processamento concluído!');
+        } else {
+            alert('Erro no processamento.');
+        }
+    };
+
+    xhr.onerror = function () {
+        alert('Erro ao conectar ao servidor.');
+    };
+
+    xhr.send(formData);
+});
+
+    </script>
+</body>
+</html>

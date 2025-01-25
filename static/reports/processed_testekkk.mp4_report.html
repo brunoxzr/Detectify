@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Detecção</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="/static/images/logo.png" alt="Detectify Logo">
+            <span>Detectify</span>
+        </div>
+        <div class="nav-links">
+            <a href="/">Início</a>
+            <a href="/history">Histórico</a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <h1>Relatório de Detecção</h1>
+
+        <!-- Gráfico de Pizza -->
+        <h2>Distribuição de Alunos</h2>
+        <canvas id="pieChart" width="400" height="200"></canvas>
+
+        <!-- Gráfico de Linha -->
+        <h2>Evolução Temporal</h2>
+        <canvas id="lineChart" width="400" height="200"></canvas>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Detectify. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Script para Gráficos com Animações -->
+    <script>
+        async function loadGraphData() {
+            const response = await fetch('/graph-data'); // Busca dados no Flask
+            const result = await response.json();
+
+            const timestamps = result.timestamps;
+            const data = result.data;
+
+            // Gráfico de Pizza
+            const ctx1 = document.getElementById('pieChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(data),
+                    datasets: [{
+                        data: Object.values(data).map(arr => arr.reduce((a, b) => a + b, 0)),
+                        backgroundColor: ['#76c7c0', '#ff9f40', '#4caf50', '#f44336', '#8e44ad']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    animation: { animateScale: true, animateRotate: true }
+                }
+            });
+
+            // Gráfico de Linha
+            const ctx2 = document.getElementById('lineChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: timestamps,
+                    datasets: Object.keys(data).map(key => ({
+                        label: key,
+                        data: data[key],
+                        borderColor: getRandomColor(),
+                        fill: false
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    animation: { duration: 2000 },
+                    scales: {
+                        x: { title: { display: true, text: 'Horário' } },
+                        y: { title: { display: true, text: 'Quantidade' } }
+                    }
+                }
+            });
+        }
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        loadGraphData();
+    </script>
+</body>
+
+</html>

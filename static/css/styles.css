@@ -1,0 +1,156 @@
+/* Geral */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9fb;
+    color: #333;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #283593;
+    color: white;
+    padding: 15px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.navbar .logo span {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.navbar .nav-links a:hover {
+    text-decoration: underline;
+}
+
+/* Main Section */
+.main-container {
+    max-width: 900px;
+    margin: 50px auto;
+    text-align: center;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.main-container h1 {
+    color: #283593;
+}
+
+form {
+    margin: 20px 0;
+}
+
+input[type="file"] {
+    display: block;
+    margin: 10px auto;
+}
+
+button {
+    padding: 12px 25px;
+    background-color: #283593;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #3949ab;
+}
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 20px 0;
+    display: block;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 20px;
+    background-color: #76c7c0;
+    transition: width 0.3s;
+}
+
+/* Histórico */
+.history-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.history-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: left;
+}
+
+.history-item video {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.history-item h2 {
+    font-size: 18px;
+    color: #283593;
+    margin-bottom: 10px;
+}
+
+.history-item .btn {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #283593;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.history-item .btn:hover {
+    background-color: #3949ab;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #283593;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}

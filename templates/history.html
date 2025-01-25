@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Processamentos - Detectify</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="/static/images/logo.png" alt="Detectify Logo">
+            <span>Detectify</span>
+        </div>
+        <div class="nav-links">
+            <a href="/">Início</a>
+            <a href="/upload">Upload</a>
+            <a href="/history">Histórico</a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <h1>Histórico de Processamentos</h1>
+
+        {% if not history %}
+        <p>Nenhum vídeo processado até o momento.</p>
+        {% else %}
+        <div class="history-list">
+            {% for item in history %}
+            <div class="history-item">
+                <video controls width="300">
+                    <source src="{{ item.video_path }}" type="video/mp4">
+                    Seu navegador não suporta vídeos.
+                </video>
+                <h2>{{ item.filename }}</h2>
+                <p>Data: {{ item.date }}</p>
+                <p>Objetos detectados: {{ item.object_counts }}</p>
+                <a href="{{ item.report_path }}" target="_blank" class="btn">Ver Relatório Completo</a>
+            </div>            
+            {% endfor %}
+        </div>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Detectify. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>
